@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pizza;
 
 class Ingredient extends Model
 {
@@ -13,4 +14,8 @@ class Ingredient extends Model
         'name',
         'price'
     ];
+
+    public function pizzas(){
+    	 return $this->belongsToMany(Pizza::class, 'ingredients_pizzas');
+    }
 }
