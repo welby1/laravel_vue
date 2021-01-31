@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Home') }}</div>
+                <div class="card-header">{{ __('Create Pizza') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,6 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <create-pizza-component :ingredients="{{ $ingredients }}" />
                 </div>
             </div>
         </div>
