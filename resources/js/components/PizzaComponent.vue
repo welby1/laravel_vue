@@ -11,7 +11,7 @@
           </p>
         </div>
       <div class="card-footer bg-transparent border-success">
-        <h6 v-for="link in links">
+        <h6>
           <a :href="'/pizza/'+pizza.id+'/edit'">Change Ingredients</a>
         </h6>
       </div>
@@ -23,12 +23,6 @@
   export default {
     data(){
       return {
-        links: [
-          {
-            title: 'this is link',
-            href: '/pizza'
-          }
-        ]
       }
     },
     props: ['pizzas'],

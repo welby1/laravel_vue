@@ -31,9 +31,6 @@ Vue.component('pizza-component', require('./components/PizzaComponent.vue').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-//import router from './router';
-
 const app = new Vue({
     el: '#app'
-    //router: router
 });

@@ -1961,8 +1961,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: ['pizza', 'ingredients'],
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  mounted: function mounted() {//console.log(this.pizza.ingredients);
   },
   methods: {
     deleteIngredient: function deleteIngredient(ingredient_id) {
@@ -1975,13 +1974,21 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(response);
       });
     },
-    findExistingTopics: function findExistingTopics() {
-      var b = this.pizza.ingredients;
-      var r2 = Object.keys(b).map(function (key) {
-        return [b[key].id];
+    findIntersection: function findIntersection(id) {
+      var topics = this.pizza.ingredients;
+      var topicsId = Object.keys(topics).map(function (key) {
+        return [topics[key].id];
       });
-      r2 = r2.flat();
-      return r2;
+      var intersection = topicsId.flat().filter(function (item) {
+        return item == id;
+      });
+
+      if (intersection.length) {
+        //console.log(topicsId);
+        return 1;
+      } else {
+        return 0;
+      }
     },
     updatePizza: function updatePizza() {
       var url = '/pizza/' + this.pizza.id;
@@ -1991,7 +1998,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         window.location.href = '/pizza/';
       }); //.then(response => console.log(response));
-      // todo attaching style 'active' if spicies exists for pizza
       //const a = this.ingredients;
       //const b = this.pizza.ingredients;
       // var r=Object.keys(a).map((key) => [a[key].id]);
@@ -2079,12 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
-      links: [{
-        title: 'this is link',
-        href: '/pizza'
-      }]
-    };
+    return {};
   },
   props: ['pizzas'],
   mounted: function mounted() {
@@ -2132,11 +2133,9 @@ Vue.component('pizza-component', __webpack_require__(/*! ./components/PizzaCompo
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-//import router from './router';
 
 var app = new Vue({
-  el: '#app' //router: router
-
+  el: '#app'
 });
 
 /***/ }),
@@ -38070,8 +38069,7 @@ var render = function() {
                 {
                   key: ingredient.id,
                   staticClass: "btn m-2 btn-light border border-dark",
-                  class:
-                    ingredient.id == _vm.findExistingTopics() ? "disabled" : "",
+                  class: { disabled: _vm.findIntersection(ingredient.id) },
                   attrs: { for: ingredient.id }
                 },
                 [
@@ -38259,14 +38257,13 @@ var render = function() {
           _c(
             "div",
             { staticClass: "card-footer bg-transparent border-success" },
-            _vm._l(_vm.links, function(link) {
-              return _c("h6", [
+            [
+              _c("h6", [
                 _c("a", { attrs: { href: "/pizza/" + pizza.id + "/edit" } }, [
                   _vm._v("Change Ingredients")
                 ])
               ])
-            }),
-            0
+            ]
           )
         ]
       )

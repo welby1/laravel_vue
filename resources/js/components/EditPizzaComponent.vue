@@ -18,7 +18,7 @@
           		  class="btn m-2 btn-light border border-dark" 
             	  v-for="ingredient in ingredients" 
             	 :key="ingredient.id"
-            	 :class="(ingredient.id == findExistingTopics()) ? 'disabled' : ''"
+            	 :class="{'disabled' : findIntersection(ingredient.id)}"
             	 >
             <input type="checkbox"
 				  :value="ingredient" 
@@ -45,7 +45,7 @@
     },
   	props: ['pizza', 'ingredients'],
   	mounted() {
-        console.log('Component mounted.');
+        //console.log(this.pizza.ingredients);
     },
     methods:{
     	deleteIngredient(ingredient_id){
@@ -54,22 +54,27 @@
     			data: { id: ingredient_id } 
     		}).then(response => console.log(response));
     	},
-    	findExistingTopics(){
-    		const b = this.pizza.ingredients;
-    		var r2=Object.keys(b).map((key) => [b[key].id]);
-    		r2 = r2.flat();
-    		return r2;
+    	findIntersection(id){
+    		const topics = this.pizza.ingredients;
+    		const topicsId = Object.keys(topics).map((key) => [topics[key].id]);
+        const intersection = topicsId.flat().filter(item => item == id);
+
+        if(intersection.length){
+          //console.log(topicsId);
+          return 1;
+        } else{
+          return 0;
+        }
     	},
-		updatePizza(){
-	      	const url = '/pizza/'+this.pizza.id;
-	      	axios.put(url, {
-	      		name: this.name,
-	      		selectedIngredients: this.selectedIngredients
-	      	})
-	      	.then(function(result){window.location.href = '/pizza/';});
+		  updatePizza(){
+      	const url = '/pizza/'+this.pizza.id;
+      	axios.put(url, {
+      		name: this.name,
+      		selectedIngredients: this.selectedIngredients
+      	})
+      	.then(function(result){window.location.href = '/pizza/';});
 	      	//.then(response => console.log(response));
 
-	      	// todo attaching style 'active' if spicies exists for pizza
 			//const a = this.ingredients;
 			//const b = this.pizza.ingredients;
 			
